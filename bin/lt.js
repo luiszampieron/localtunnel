@@ -14,6 +14,10 @@ const { argv } = yargs
     alias: 'port',
     describe: 'Internal HTTP server port',
   })
+  .option('t', {
+    alias: 'token',
+    describe: 'Authentication token from server',
+  })
   .option('h', {
     alias: 'host',
     describe: 'Upstream server providing forwarding',
@@ -50,6 +54,7 @@ const { argv } = yargs
     describe: 'Print basic request info',
   })
   .require('port')
+  .require('token')
   .boolean('local-https')
   .boolean('allow-invalid-cert')
   .boolean('print-requests')
@@ -65,6 +70,7 @@ if (typeof argv.port !== 'number') {
 (async () => {
   const tunnel = await localtunnel({
     port: argv.port,
+    token: argv.token,
     host: argv.host,
     subdomain: argv.subdomain,
     local_host: argv.localHost,
